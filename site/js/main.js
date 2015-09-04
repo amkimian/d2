@@ -15,9 +15,28 @@
     }, 400);
   }
 
+  writeValue();
+
   $(window).on("resize", function() {
     clearTimeout(to);
     pieceHeights();
   }).trigger("resize");
 
 }());
+
+function writeValue() {
+  // Make a test ajax call to the go runtime to retrieve some data and then use that data to update a field in the html
+  $.ajax({
+    url: "/app/test",
+    dataType: "json",
+    success: function(data) {
+      if (data.hasOwnProperty("error")) {
+        window.location.replace(data.error);
+      }
+      $("#test").text(data.user);
+    },
+    error: function(d) {
+      alert(d);
+    }
+  });
+}
